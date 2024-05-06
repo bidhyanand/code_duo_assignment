@@ -1,0 +1,6 @@
+{
+  "getAllSpells": {
+    "url": "/spells",
+    "method": "GET"
+  }
+}
