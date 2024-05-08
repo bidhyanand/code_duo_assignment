@@ -4,15 +4,15 @@ import App from "./App.tsx";
 import "./index.css";
 import ToastDesign from "./components/ToastDesign.tsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import SpellsDetails from "./pages/SpellsDetail.tsx";
 import RootLayout from "./components/RootLayout.tsx";
+import SpellsDetail from "./pages/SpellsDetail.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
     children: [
       { path: "/", element: <App /> },
-      { path: "spells/:id", element: <SpellsDetails /> },
+      { path: "spells/:id", element: <SpellsDetail /> },
     ],
   },
 ]);

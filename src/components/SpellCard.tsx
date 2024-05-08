@@ -5,13 +5,13 @@ import { FcLike } from "react-icons/fc";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-const CardDesign: React.FC<Root> = ({ data }) => {
+const CardDesign = ({ data}:{data:Spells[]}) => {
   const [page, setPage] = useState(0);
   const [rowPerPage, setRowPerPage] = useState(20);
-  const handlePageChange = (e: any, newpage: number) => {
+  const handlePageChange = (_e: any, newpage: number) => {
     setPage(newpage);
   };
-  function handlePerPage(e: any) {
+  function handlePerPage(e: React.ChangeEvent<HTMLInputElement>) {
     setRowPerPage(+e.target.value);
     setPage(0);
   }
@@ -35,25 +35,25 @@ const CardDesign: React.FC<Root> = ({ data }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-wrap justify-center gap-4 pt-4 ">
+    <div className="flex flex-wrap   gap-3 2xl:gap-4 justify-around pt-4 xl:px-4 ">
       {data
         ?.slice(page * rowPerPage, page * rowPerPage + rowPerPage)
         .map((item: any) => {
           return (
             <>
-              <div className="max-w-sm font-mono border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-1/4 bg-gray-200 ">
-                <div className="p-5">
+              <div className="max-w-sm font-mono border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-1/5 2xl:w-1/4 bg-gray-200 ">
+                <div className="p-5 ">
                   <a href="#">
-                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    <h5 className="mb-2 2xl:text-2xl font-bold tracking-tight text-base text-gray-900 dark:text-white  ">
                       {item?.name}
                     </h5>
                   </a>
 
                   <p className="flex justify-end py-3">
-                    <span className="font-semibold  dark:text-gray-200 text-red-400 ">
+                    <span className="font-semibold  dark:text-gray-200 text-red-400  ">
                       Level:
                     </span>{" "}
-                    <span className="text-red-500 pl-4">
+                    <span className="text-red-500 pl-4 ">
                       {item?.size} {getStars(item?.level)}
                     </span>
                   </p>
@@ -138,153 +138,11 @@ const CardDesign: React.FC<Root> = ({ data }) => {
 };
 export default CardDesign;
 
-export interface Root {
-  index: string;
-  name: string;
-  size: string;
-  type: string;
-  alignment: string;
-  armor_class: ArmorClass[];
-  hit_points: number;
-  hit_dice: string;
-  hit_points_roll: string;
-  speed: Speed;
-  strength: number;
-  dexterity: number;
-  constitution: number;
-  intelligence: number;
-  wisdom: number;
-  charisma: number;
-  proficiencies: Proficiency[];
-  damage_vulnerabilities: any[];
-  damage_resistances: any[];
-  damage_immunities: string[];
-  condition_immunities: any[];
-  senses: Senses;
-  languages: string;
-  challenge_rating: number;
-  proficiency_bonus: number;
-  xp: number;
-  special_abilities: SpecialAbility[];
-  actions: Action[];
-  legendary_actions: LegendaryAction[];
-  image: string;
-  url: string;
-  data: any;
-}
 
-export interface ArmorClass {
-  type: string;
-  value: number;
-}
-
-export interface Speed {
-  walk: string;
-  fly: string;
-  swim: string;
-}
-
-export interface Proficiency {
-  value: number;
-  proficiency: Proficiency2;
-}
-
-export interface Proficiency2 {
-  index: string;
-  name: string;
-  url: string;
-}
-
-export interface Senses {
-  blindsight: string;
-  darkvision: string;
-  passive_perception: number;
-}
-
-export interface SpecialAbility {
-  name: string;
-  desc: string;
-  usage?: Usage;
-}
-
-export interface Usage {
-  type: string;
-  times: number;
-  rest_types: any[];
-}
-
-export interface Action {
-  name: string;
-  multiattack_type?: string;
-  desc: string;
-  actions: Action2[];
-  attack_bonus?: number;
-  damage?: Damage[];
-  dc?: Dc;
-  usage?: Usage2;
-}
-
-export interface Action2 {
-  action_name: string;
-  count: number;
-  type: string;
-}
-
-export interface Damage {
-  damage_type: DamageType;
-  damage_dice: string;
-}
-
-export interface DamageType {
-  index: string;
-  name: string;
-  url: string;
-}
-
-export interface Dc {
-  dc_type: DcType;
-  dc_value: number;
-  success_type: string;
-}
-
-export interface DcType {
-  index: string;
-  name: string;
-  url: string;
-}
-
-export interface Usage2 {
-  type: string;
-  dice: string;
-  min_value: number;
-}
-
-export interface LegendaryAction {
-  name: string;
-  desc: string;
-  dc?: Dc2;
-  damage?: Damage2[];
-}
-
-export interface Dc2 {
-  dc_type: DcType2;
-  dc_value: number;
-  success_type: string;
-}
-
-export interface DcType2 {
-  index: string;
-  name: string;
-  url: string;
-}
-
-export interface Damage2 {
-  damage_type: DamageType2;
-  damage_dice: string;
-}
-
-export interface DamageType2 {
-  index: string;
-  name: string;
-  url: string;
+export interface Spells {
+  index: string
+  name: string
+  level: number
+  url: string,
+  
 }
