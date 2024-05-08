@@ -5,7 +5,6 @@ import CardDesign from "./components/cardDesign";
 
 export default function App() {
   const [getAllSpellList, setGetAllSpellList] = useState<Root[]>([]);
-  console.log(getAllSpellList, "getAllSpellList");
 
   useEffect(() => {
     fetchAPI(apiEndPoint.getAllSpells.url)
