@@ -6,20 +6,25 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import FavContext from "../context/Fav-context";
 
-const CardDesign: React.FC<Root> = ({ data }) => {
-  data = data?.map((item: Root, index: number) => {
-    return {
-      ...item,
-      id: index + 1,
-    };
-  });
+
+export interface Spells {
+  id:number,
+  index: string;
+  name: string;
+  level: number;
+  url: string;
+}
+
+
+const CardDesign = () => {
+ 
 
   const [page, setPage] = useState(0);
   const [rowPerPage, setRowPerPage] = useState(20);
-  const handlePageChange = (e: any, newpage: number) => {
+  const handlePageChange = (newpage: number) => {
     setPage(newpage);
   };
-  function handlePerPage(e: any) {
+  function handlePerPage(e: { target: { value: string | number; }; }) {
     setRowPerPage(+e.target.value);
     setPage(0);
   }
@@ -41,7 +46,7 @@ const CardDesign: React.FC<Root> = ({ data }) => {
 
   const navigate = useNavigate();
 
-  const addToFavHandler = (e: FormEvent, item: any) => {
+  const addToFavHandler = (e: FormEvent, item:Spells) => {
     // eslint-disable-next-line no-debugger
     e.preventDefault();
     favContext.addItem({
@@ -52,7 +57,7 @@ const CardDesign: React.FC<Root> = ({ data }) => {
       url: item.url,
     });
   };
-  const removeFromFavHandler = (id) => {
+  const removeFromFavHandler = (id:number) => {
     favContext.removeItem(id);
   };
 
@@ -63,9 +68,9 @@ const CardDesign: React.FC<Root> = ({ data }) => {
       { favContext?.wishItems?.length > 0 ? 
        favContext?.wishItems
         ?.slice(page * rowPerPage, page * rowPerPage + rowPerPage)
-        .map((item: any) => {
+        .map((item: Spells) => {
           const idExistsInSecondArray = favContext?.wishItems.some(
-            (obj) => obj.id === item.id
+            (obj:Spells) => obj.id === item.id
           );
           console.log(idExistsInSecondArray);
           return (
@@ -83,7 +88,7 @@ const CardDesign: React.FC<Root> = ({ data }) => {
                       Level:
                     </span>{" "}
                     <span className="text-red-500 pl-4">
-                      {item?.size} {getStars(item?.level)}
+                      {getStars(item?.level)}
                     </span>
                   </p>
                   <div className="flex justify-between">
@@ -172,7 +177,7 @@ const CardDesign: React.FC<Root> = ({ data }) => {
         page={page}
         count={favContext?.wishItems?.length}
         component={"div"}
-        onPageChange={handlePageChange}
+        onPageChange={()=>handlePageChange}
         onRowsPerPageChange={handlePerPage}
       ></TablePagination>
     }
@@ -180,154 +185,3 @@ const CardDesign: React.FC<Root> = ({ data }) => {
   );
 };
 export default CardDesign;
-
-export interface Root {
-  index: string;
-  name: string;
-  size: string;
-  type: string;
-  alignment: string;
-  armor_class: ArmorClass[];
-  hit_points: number;
-  hit_dice: string;
-  hit_points_roll: string;
-  speed: Speed;
-  strength: number;
-  dexterity: number;
-  constitution: number;
-  intelligence: number;
-  wisdom: number;
-  charisma: number;
-  proficiencies: Proficiency[];
-  damage_vulnerabilities: any[];
-  damage_resistances: any[];
-  damage_immunities: string[];
-  condition_immunities: any[];
-  senses: Senses;
-  languages: string;
-  challenge_rating: number;
-  proficiency_bonus: number;
-  xp: number;
-  special_abilities: SpecialAbility[];
-  actions: Action[];
-  legendary_actions: LegendaryAction[];
-  image: string;
-  url: string;
-  data: any;
-}
-
-export interface ArmorClass {
-  type: string;
-  value: number;
-}
-
-export interface Speed {
-  walk: string;
-  fly: string;
-  swim: string;
-}
-
-export interface Proficiency {
-  value: number;
-  proficiency: Proficiency2;
-}
-
-export interface Proficiency2 {
-  index: string;
-  name: string;
-  url: string;
-}
-
-export interface Senses {
-  blindsight: string;
-  darkvision: string;
-  passive_perception: number;
-}
-
-export interface SpecialAbility {
-  name: string;
-  desc: string;
-  usage?: Usage;
-}
-
-export interface Usage {
-  type: string;
-  times: number;
-  rest_types: any[];
-}
-
-export interface Action {
-  name: string;
-  multiattack_type?: string;
-  desc: string;
-  actions: Action2[];
-  attack_bonus?: number;
-  damage?: Damage[];
-  dc?: Dc;
-  usage?: Usage2;
-}
-
-export interface Action2 {
-  action_name: string;
-  count: number;
-  type: string;
-}
-
-export interface Damage {
-  damage_type: DamageType;
-  damage_dice: string;
-}
-
-export interface DamageType {
-  index: string;
-  name: string;
-  url: string;
-}
-
-export interface Dc {
-  dc_type: DcType;
-  dc_value: number;
-  success_type: string;
-}
-
-export interface DcType {
-  index: string;
-  name: string;
-  url: string;
-}
-
-export interface Usage2 {
-  type: string;
-  dice: string;
-  min_value: number;
-}
-
-export interface LegendaryAction {
-  name: string;
-  desc: string;
-  dc?: Dc2;
-  damage?: Damage2[];
-}
-
-export interface Dc2 {
-  dc_type: DcType2;
-  dc_value: number;
-  success_type: string;
-}
-
-export interface DcType2 {
-  index: string;
-  name: string;
-  url: string;
-}
-
-export interface Damage2 {
-  damage_type: DamageType2;
-  damage_dice: string;
-}
-
-export interface DamageType2 {
-  index: string;
-  name: string;
-  url: string;
-}

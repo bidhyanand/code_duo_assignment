@@ -155,7 +155,7 @@ export default SpellDetailCardDesign;
 // }
 
 export interface Root {
-  higher_level: any[];
+  higher_level: string[];
   index: string;
   name: string;
   desc: string[];

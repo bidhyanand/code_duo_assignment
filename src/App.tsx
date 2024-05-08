@@ -33,6 +33,7 @@ export default function App() {
 }
 
 export interface Spells {
+  id:number;
   index: string;
   name: string;
   level: number;

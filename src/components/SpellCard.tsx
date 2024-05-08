@@ -6,6 +6,15 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import FavContext from "../context/Fav-context";
 
+export interface Spells {
+  id:number,
+  index: string;
+  name: string;
+  level: number;
+  url: string;
+}
+
+
 const CardDesign = ({ data }: { data: Spells[] }) => {
   data = data?.map((item: Spells, index: number) => {
     return {
@@ -15,7 +24,7 @@ const CardDesign = ({ data }: { data: Spells[] }) => {
   });
 
   const favContext = useContext(FavContext);
-  const addToFavHandler = (e: FormEvent, item: any) => {
+  const addToFavHandler = (e: FormEvent, item: Spells) => {
     // eslint-disable-next-line no-debugger
     e.preventDefault();
     favContext.addItem({
@@ -26,13 +35,13 @@ const CardDesign = ({ data }: { data: Spells[] }) => {
       url: item.url,
     });
   };
-  const removeFromFavHandler = (id) => {
+  const removeFromFavHandler = (id:number) => {
     favContext.removeItem(id);
   };
 
   const [page, setPage] = useState(0);
   const [rowPerPage, setRowPerPage] = useState(20);
-  const handlePageChange = (_e: any, newpage: number) => {
+  const handlePageChange = (_e: FormEvent, newpage: number) => {
     setPage(newpage);
   };
   function handlePerPage(e: React.ChangeEvent<HTMLInputElement>) {
@@ -54,7 +63,7 @@ const CardDesign = ({ data }: { data: Spells[] }) => {
 
     return stars;
   }
-  const [fovurate, setFovurate] = useState(false);
+
 
   const navigate = useNavigate();
 
@@ -62,10 +71,11 @@ const CardDesign = ({ data }: { data: Spells[] }) => {
     <div className="flex flex-wrap   gap-3 2xl:gap-4 justify-around pt-4 xl:px-4 ">
       {data
         ?.slice(page * rowPerPage, page * rowPerPage + rowPerPage)
-        .map((item: any) => {
+        .map((item:Spells) => {
           const idExistsInSecondArray = favContext?.wishItems.some(
-            (obj) => obj.id === item.id
+            (obj:Spells) => obj.id === item.id
           );
+          console.log(item,'response')
           return (
             <>
               <div className="max-w-sm font-mono border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-1/5 2xl:w-1/4 bg-gray-200 ">
@@ -81,7 +91,7 @@ const CardDesign = ({ data }: { data: Spells[] }) => {
                       Level:
                     </span>{" "}
                     <span className="text-red-500 pl-4 ">
-                      {item?.size} {getStars(item?.level)}
+                       {getStars(item?.level)}
                     </span>
                   </p>
                   <div className="flex justify-between">
@@ -165,17 +175,11 @@ const CardDesign = ({ data }: { data: Spells[] }) => {
         page={page}
         count={data?.length}
         component={"div"}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handlePerPage}
+        onPageChange={()=>handlePageChange}
+        onRowsPerPageChange={()=>handlePerPage}
       ></TablePagination>
     </div>
   );
 };
 export default CardDesign;
 
-export interface Spells {
-  index: string;
-  name: string;
-  level: number;
-  url: string;
-}
