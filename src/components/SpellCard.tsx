@@ -6,6 +6,14 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import FavContext from "../context/Fav-context";
 
+export interface Spells {
+  id: number;
+  index: string;
+  name: string;
+  level: number;
+  url: string;
+}
+
 const CardDesign = ({ data }: { data: Spells[] }) => {
   data = data?.map((item: Spells, index: number) => {
     return {
@@ -15,8 +23,7 @@ const CardDesign = ({ data }: { data: Spells[] }) => {
   });
 
   const favContext = useContext(FavContext);
-  const addToFavHandler = (e: FormEvent, item: any) => {
-    // eslint-disable-next-line no-debugger
+  const addToFavHandler = (e: FormEvent, item: Spells) => {
     e.preventDefault();
     favContext.addItem({
       id: item.id,
@@ -26,13 +33,13 @@ const CardDesign = ({ data }: { data: Spells[] }) => {
       url: item.url,
     });
   };
-  const removeFromFavHandler = (id) => {
+  const removeFromFavHandler = (id: number) => {
     favContext.removeItem(id);
   };
 
   const [page, setPage] = useState(0);
   const [rowPerPage, setRowPerPage] = useState(20);
-  const handlePageChange = (_e: any, newpage: number) => {
+  const handlePageChange = (_e: FormEvent, newpage: number) => {
     setPage(newpage);
   };
   function handlePerPage(e: React.ChangeEvent<HTMLInputElement>) {
@@ -44,17 +51,15 @@ const CardDesign = ({ data }: { data: Spells[] }) => {
     if (level === 0) {
       return "No Rating Available ";
     }
-    // Define an empty string to store the star symbols
+
     let stars = "";
 
-    // Loop through the level and add a star symbol for each level
     for (let i = 0; i < level; i++) {
-      stars += "⭐"; // Unicode star symbol
+      stars += "⭐";
     }
 
     return stars;
   }
-  const [fovurate, setFovurate] = useState(false);
 
   const navigate = useNavigate();
 
@@ -62,9 +67,9 @@ const CardDesign = ({ data }: { data: Spells[] }) => {
     <div className="flex flex-wrap   gap-3 2xl:gap-4 justify-around pt-4 xl:px-4 ">
       {data
         ?.slice(page * rowPerPage, page * rowPerPage + rowPerPage)
-        .map((item: any) => {
+        .map((item: Spells) => {
           const idExistsInSecondArray = favContext?.wishItems.some(
-            (obj) => obj.id === item.id
+            (obj: Spells) => obj.id === item.id
           );
           return (
             <>
@@ -81,7 +86,7 @@ const CardDesign = ({ data }: { data: Spells[] }) => {
                       Level:
                     </span>{" "}
                     <span className="text-red-500 pl-4 ">
-                      {item?.size} {getStars(item?.level)}
+                      {getStars(item?.level)}
                     </span>
                   </p>
                   <div className="flex justify-between">
@@ -115,22 +120,11 @@ const CardDesign = ({ data }: { data: Spells[] }) => {
                               className="text-white"
                               size={24}
                               onClick={(e) => {
-                                // setFavData({
-                                //   ...getFavData,
-                                //   id:item.id,
-                                //   index: item.index,
-                                //   url: item.url,
-                                //   title: item.name,
-                                //   level: item.level,
-                                // });
                                 addToFavHandler(e, item);
 
                                 toast.success("Added to favorites");
                               }}
                             />{" "}
-                            <span className="tooltip whitespace-nowrap absolute bottom-3 pr-4 right-4 text-white opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
-                              Add to favorites
-                            </span>
                           </p>
                         </div>
                       </div>
@@ -146,9 +140,6 @@ const CardDesign = ({ data }: { data: Spells[] }) => {
                                 toast.error("Removed From favorites");
                               }}
                             />{" "}
-                            <span className="tooltip whitespace-nowrap absolute bottom-3 pr-4 right-4 text-white opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
-                              Remove Favorite
-                            </span>
                           </p>
                         </div>
                       </div>
@@ -165,17 +156,10 @@ const CardDesign = ({ data }: { data: Spells[] }) => {
         page={page}
         count={data?.length}
         component={"div"}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handlePerPage}
+        onPageChange={() => handlePageChange}
+        onRowsPerPageChange={() => handlePerPage}
       ></TablePagination>
     </div>
   );
 };
 export default CardDesign;
-
-export interface Spells {
-  index: string;
-  name: string;
-  level: number;
-  url: string;
-}

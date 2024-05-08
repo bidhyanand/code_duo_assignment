@@ -7,8 +7,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import RootLayout from "./components/RootLayout.tsx";
 import SpellsDetail from "./pages/SpellsDetail.tsx";
 import FavList from "./pages/FavList.tsx";
-import FavProvider from "./context/FavProvider.tsx"
-;
+import FavProvider from "./context/FavProvider.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,9 +23,8 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <FavProvider>
-
-    <ToastDesign />
-    <RouterProvider router={router} />
+      <ToastDesign />
+      <RouterProvider router={router} />
     </FavProvider>
   </React.StrictMode>
 );

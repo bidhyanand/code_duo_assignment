@@ -24,9 +24,9 @@ export default function App() {
       {loaderState ? (
         <Loader />
       ) : (
-        <div className="" >
+        <>
           <CardDesign data={getAllSpellList} />
-        </div>
+        </>
       )}
     </>
   );
@@ -37,4 +37,5 @@ export interface Spells {
   name: string;
   level: number;
   url: string;
+  id: number;
 }

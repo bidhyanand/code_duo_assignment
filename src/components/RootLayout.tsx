@@ -4,7 +4,7 @@ import NavBar from "./NavBar";
 export default function RootLayout() {
   return (
     <div>
-        <NavBar />
+      <NavBar />
       <Outlet />
     </div>
   );

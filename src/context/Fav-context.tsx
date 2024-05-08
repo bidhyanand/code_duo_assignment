@@ -1,13 +1,17 @@
 import React from "react";
-
+interface Item {
+  id: number;
+  index: string;
+  name: string;
+  url: string;
+  level: number;
+}
 const FavContext = React.createContext({
-    wishItems:[],
-    totalAmount: 0 ,
-    // eslint-disable-next-line no-debugger
-    addItem : (item:any)=>{},
-    removeItem : (id:any)=>{},
+  wishItems: [] as Item[],
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  addItem: (_item: Item) => {},
+//   eslint-disable-next-line @typescript-eslint/no-unused-vars
+  removeItem: (_id: number) => {},
 });
 
-
-
-export default FavContext
+export default FavContext;
