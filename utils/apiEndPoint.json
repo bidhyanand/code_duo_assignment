@@ -2,5 +2,9 @@
   "getAllSpells": {
     "url": "/spells",
     "method": "GET"
+  },
+  "getSpellDescription": {
+    "url": "spells/",
+    "method": "GET"
   }
 }
